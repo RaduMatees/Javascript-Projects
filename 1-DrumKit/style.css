@@ -1,0 +1,45 @@
+body {
+  box-sizing: border-box;
+  background: url(http://i.imgur.com/b9r5sEL.jpg) bottom center;
+  background-size: cover;
+  font-family: sans-serif;
+}
+h1, p {
+  margin: 0;
+  padding: 0;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.button {
+  text-align: center;
+  border: 4px solid black;
+  border-radius: 5px;
+  flex-basis: 115px;
+  height: 100px;
+  background: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 0 .5rem black;
+  transition: all 0.1s ease;
+}
+.button h1{
+  color: white;
+  font-size: 40px;
+  padding-top: 15px;
+}
+.button p {
+  color: goldenrod;
+  font-size: 13px;
+  font-weight: bold;
+}
+.active {
+  transform: scale(1.1);
+  border-color: #ffc600;
+  box-shadow: 0 0 1rem #ffc600;
+}
