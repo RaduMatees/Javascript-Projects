@@ -35,7 +35,7 @@ body {
   height: 10px;
   position: absolute;
   top: 50%;
-  transform: translateY(-5px) rotate(90deg);
+  transform: translateY(-5px);
   right: 50%;
   transform-origin: 100%;
 }
