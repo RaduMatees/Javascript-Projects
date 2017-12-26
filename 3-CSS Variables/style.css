@@ -1,0 +1,29 @@
+:root {
+  --base: #ffc600;
+  --spacing: 10px;
+  --blur: 10px;
+}
+
+body {
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+  background-color: #193549;
+  color: white;
+  font-family: 'helvetica neue', sans-serif;
+  font-size: 40px;
+  text-align: center;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+img {
+  margin-top: 30px;
+  padding: var(--spacing);
+  background: var(--base);
+  filter: blur(var(--blur));
+}
+#js {
+  color: var(--base);
+}
