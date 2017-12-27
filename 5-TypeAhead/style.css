@@ -1,0 +1,59 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #FFC600;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.search-input {
+  display: block;
+  margin: auto;
+  margin-top: 50px;
+  width: 40%;
+  border: 15px solid #F7F7F7;
+  border-radius: 7px;
+  box-shadow:
+    inset 0 0 0 1px #e2dede,
+    0 0 0 1px #e2dede;
+  text-align: center;
+  font-size: 2.5em;
+  padding: 0.5em;
+}
+.search-input:focus {
+  outline: none;
+}
+.suggestions {
+  width: 30%;
+  margin: 0 auto;
+  font-size: 1.3em;
+  padding: 0;
+}
+.suggestions li{
+  background:white;
+  list-style: none;
+  border-bottom: 1px solid #D8D8D8;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
+  margin:0;
+  padding:20px;
+  transition:background 0.2s;
+  text-transform: capitalize;
+}
+.suggestions li:nth-child(even) {
+  transform: perspective(100px) rotateX(3deg) translateY(2px) scale(1.001);
+  background: linear-gradient(to bottom,  #ffffff 0%,#EFEFEF 100%);
+}
+.suggestions li:nth-child(odd) {
+  transform: perspective(100px) rotateX(-3deg) translateY(3px);
+  background: linear-gradient(to top,  #ffffff 0%,#EFEFEF 100%);
+}
+.hl {
+  background-color: yellow;
+}
+.population {
+  font-size: 15px;
+  float: right;
+}
