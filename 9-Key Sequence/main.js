@@ -1,4 +1,4 @@
-const secretCode = 'radu'
+const secretCode = 'javascript'
 let pressed = []
 
 window.addEventListener('keyup', (e) => {
