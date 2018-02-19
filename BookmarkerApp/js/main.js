@@ -34,7 +34,7 @@ function populatePage(container, list){
 }
 
 function deleteBookmark(e){
-  e.preventDefault()
+
 
   // Remove the delete button parent DIV
   if (!e.target.matches('a[class="btn btn-danger"]')) return
