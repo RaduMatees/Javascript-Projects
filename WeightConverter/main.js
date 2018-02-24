@@ -2,13 +2,24 @@ const input = document.querySelector('#input');
 const outputs = [document.querySelector('#gramsOutput'), document.querySelector('#kgOutput'),
 document.querySelector('#ozOutput'), document.querySelector('#lbsOutput')];
 const cards = document.querySelectorAll('.card');
-input.disabled = true;
-let measUnit;
+input.disabled = true; // disable the input when loading the page
+let measUnit; // what unit is the user choosing to convert based on what card he clicks
+let lastOne; // variable for jogling with the card highlighter
 
 cards.forEach(card => card.addEventListener('click', function(){
+  // add an overlay color for the active card
+  if (!this.classList.contains('active')) {
+    this.classList.add('active');
+  }
+  if (lastOne !== undefined && lastOne !== this) {
+    lastOne.classList.remove('active');
+  }
+  lastOne = this;
+
   input.disabled = false;
   measUnit = this.dataset.mu;
   input.placeholder = `Enter ${measUnit}:`;
+
   // if it's not the first click on a card
   if (input.value) {
     outputs.map((output, i) => output.innerHTML = resolve(input.value, measUnit)[i]);
