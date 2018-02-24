@@ -21,7 +21,7 @@ function saveBookmark(e){
 }
 
 function populatePage(container, list){
-  results.innerHTML = list.map((bookmark, index) => {
+  container.innerHTML = list.map((bookmark, index) => {
     return `
       <div class='well' data-index='${index}'>
         <h3>${bookmark.name}
@@ -34,8 +34,6 @@ function populatePage(container, list){
 }
 
 function deleteBookmark(e){
-
-
   // Remove the delete button parent DIV
   if (!e.target.matches('a[class="btn btn-danger"]')) return
   const btnIndex = e.target.dataset.index
