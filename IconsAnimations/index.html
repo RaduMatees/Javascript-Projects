@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <title>Font Awesome Icons</title>
+  <style>
+  body {
+    margin: 70px 70px;
+  }
+    #battery {
+      font-size: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id='battery' class="fa"></div>
+
+  <script>
+    animateIcons()
+
+    function animateIcons(){
+      const battery = document.querySelector('#battery');
+      battery.innerHTML = '&#xf244';
+      setTimeout(function(){
+        battery.innerHTML = '&#xf243';
+      }, 1000);
+      setTimeout(function(){
+        battery.innerHTML = '&#xf242';
+      }, 2000);
+      setTimeout(function(){
+        battery.innerHTML = '&#xf241';
+      }, 3000);
+      setTimeout(function(){
+        battery.innerHTML = '&#xf240';
+      }, 4000);
+    }
+
+    setInterval(animateIcons, 5000);
+
+  </script>
+</body>
+</html>
