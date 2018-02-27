@@ -1,1 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <title>My Geocode App</title>
+</head>
+<body>
 
+  <div class="container">
+    <form id='locationForm' class="form-group">
+      <input id='locationInput' type="text" class="form-control form-control-lg mt-5" placeholder="Enter Location">
+      <br>
+      <button type='submit' class='btn btn-primary btn-block'>Submit</button>
+    </form>
+
+    <div class='card-block' id="formatted-address"></div>
+    <div class='card-block' id="address-components"></div>
+    <div class='card-block' id="geometry"></div>
+  </div>
+
+  <script>
+    let endpoint = 'https://maps.googleapis.com/maps/api/geocode/json';
+
+    let form = document.querySelector('#locationForm');
+    form.addEventListener('submit', geocode);
+
+    function geocode(e){
+      e.preventDefault();
+      let userInput = document.querySelector('#locationInput').value;
+      fetch(`${endpoint}?address=${userInput}&key=AIzaSyDH-7FbbKNCF6j6B_QF6KaJnMrIJcImYAQ`).then(function(response){
+        response.json().then(data => {
+          console.log(data)
+          var formattedAddress = data.results[0].formatted_address;
+          var formattedAddressOutput = `
+            <ul class='list-group'>
+              <li class='list-group-item'>${formattedAddress}</li>
+            </ul>
+          `;
+          document.querySelector('#formatted-address').innerHTML = formattedAddressOutput;
+
+          var addressComponents = data.results[0].address_components;
+          var addressComponentsOutput = `<ul class='list-group'>`
+          addressComponents.map(address => {
+            addressComponentsOutput +=  `
+              <li class='list-group-item'><strong>${address.types[0]}</strong>: ${address.long_name}</li>
+            `
+          })
+          addressComponentsOutput += `</ul>`;
+          document.querySelector('#address-components').innerHTML = addressComponentsOutput;
+
+          var lat = data.results[0].geometry.location.lat;
+          var lng = data.results[0].geometry.location.lng;
+          var geometryOutput = `
+            <ul class='list-group'>
+              <li class='list-group-item'><strong>Latitude:</strong>${lat}</li>
+              <li class='list-group-item'><strong>Longitude:</strong>${lng}</li>
+            </ul>
+          `;
+          document.querySelector('#geometry').innerHTML = geometryOutput;
+        })
+      })
+      .catch(function(err) {
+        console.log('Fetch Error :-S', err);
+      })
+    }
+  </script>
+</body>
+</html>
