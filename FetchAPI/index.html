@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <title>Fetch API Sandbox</title>
+</head>
+<body>
+  <div class="container">
+    <h1 class='display-4 mb-4'>Fetch API Sandbox</h1>
+    <div class='d-flex'>
+      <button class='btn btn-primary mr-4' id="getText">Get Text</button>
+      <button class='btn btn-success mr-4' id="getUsers">Get JSON</button>
+      <button class='btn btn-warning mr-4' id="getPosts">Get API Data</button>
+    </div>
+    <hr>
+    <div id="output"></div>
+    <form id="addPost">
+      <div class='form-group'>
+        <input type="text" class='form-control' id='title' placeholder="Title">
+      </div>
+      <div>
+        <textarea id='body' class='form-control' placeholder="Body"></textarea>
+      </div>
+      <input type="submit" class='btn btn-secondary mt-3' value='submit'>
+    </form>
+  </div>
+
+  <script>
+    document.querySelector('#getText').addEventListener('click', getText);
+    document.querySelector('#getUsers').addEventListener('click', getUsers);
+    document.querySelector('#getPosts').addEventListener('click', getPosts);
+    document.querySelector('#addPost').addEventListener('submit', addPost);
+
+    function getText(){
+      fetch('sample.txt')
+      .then(res => res.text())
+      .then(data => {
+        document.querySelector('#output').innerHTML = data;
+      })
+      .catch(err => console.log('Error:' + err))
+    }
+
+    function getUsers(){
+      fetch('users.json')
+      .then(res => res.json())
+      .then(data => {
+        let output = '<h2 class="mb-4">Users</h2>';
+        data.map(user => {
+          output +=
+            `<ul class='list-group mb-4'>
+              <li class='list-group-item '>ID: ${user.id}</li>
+              <li class='list-group-item'>Name: ${user.name}</li>
+              <li class='list-group-item'>Email: ${user.email}</li>
+            </ul>`
+        });
+        document.querySelector('#output').innerHTML = output;
+      })
+      .catch(err => console.log('Error:' + err))
+    }
+
+    function getPosts(){
+      fetch('http://jsonplaceholder.typicode.com/posts')
+      .then(res => res.json())
+      .then(data => {
+        let output = '<h2 class="mb-4">Posts</h2>';
+        data.map(post => {
+          output +=
+            `<div class='card mb-3'>
+              <h3 class='card-block'>${post.title}</h3>
+              <p class='card-block'>${post.body}</p>
+            </div>`
+        });
+        document.querySelector('#output').innerHTML = output;
+      })
+      .catch(err => console.log('Error:' + err))
+    }
+
+    function addPost(e) {
+      e.preventDefault();
+      let title = this.querySelector('#title').value;
+      let body = this.querySelector('#body').value;
+
+      fetch('http://jsonplaceholder.typicode.com/posts', {
+        method:'POST',
+        headers:{
+          'Accept': 'application/json, text/plain, */*',
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({title:title, body:body})
+      })
+      .then(res => res.json())
+      .then(data => console.log(data))
+    }
+
+  </script>
+</body>
+</html>
