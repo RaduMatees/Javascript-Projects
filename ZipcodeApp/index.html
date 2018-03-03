@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <style>
+    #banner {
+      border-radius: 0;
+    }
+    #zipcodeInput:focus {
+      box-shadow: none;
+    }
+    .icon-remove {
+      display: none;
+    }
+  </style>
+  <title>Zipcode App</title>
+</head>
+<body>
+  <section id='banner' class="jumbotron bg-dark">
+    <h1 class="display-4 text-white">US Location Info</h1>
+    <h3 class="text-white font-weight-light mb-3">Enter a zipcode to get the location info</h2>
+
+    <form id='zipcodeForm' class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text bg-white border-0"><i class="fa fa-map-pin"></i></span>
+      </div>
+      <input type="text" id='zipcodeInput' class="form-control form-control-lg border-0" placeholder="Enter a zipcode">
+      <div class="input-group-append">
+        <span class="input-group-text bg-white border-0">
+          <i class="fa fa-check icon-remove" data-icon='check'></i>
+          <i class="fa fa-times icon-remove" data-icon='remove'></i>
+        </span>
+      </div>
+    </form>
+  </section>
+
+  <br>
+  <div class="container">
+    <div id="output">
+
+    </div>
+  </div>
+
+  <script>
+
+    document.querySelector('#zipcodeForm').addEventListener('submit', getLocationInfo);
+    document.querySelector('body').addEventListener('click', deleteLocation);
+
+    function getLocationInfo(e){
+      e.preventDefault();
+      const zip = this.querySelector('#zipcodeInput').value;
+
+      fetch('http://api.zippopotam.us/us/'+zip)
+      .then(response => {
+        if (response.status !== 200){
+          showIcon('remove');
+          document.querySelector('#output').innerHTML =
+          `
+          <div class="alert alert-danger" role="alert">
+          Invalid zipcode, please try again
+          </div>
+          `;
+          throw Error(response.statusText);
+        } else {
+          showIcon('check');
+          return response.json();
+        }
+      })
+      .then(data => {
+        let output = '';
+        data.places.map(place => {
+          output += `
+            <article class="message">
+              <div class="d-flex align-items-center justify-content-between">
+                <h3 class='font-weight-bold'>Location Info</h3>
+                <button class="btn btn-outline-danger btn-sm"><i class="fa fa-times" data-icon='remove'></i></button>
+              </div>
+              <ul class='list-group mt-2'>
+                <li class='list-group-item bg-light'><strong>City:</strong> ${place['place name']}</li>
+                <li class='list-group-item'><strong>State:</strong> ${place['state']}</li>
+                <li class='list-group-item bg-light'><strong>Longitude:</strong> ${place['longitude']}</li>
+                <li class='list-group-item'><strong>Latitude:</strong> ${place['latitude']}</li>
+              </ul>
+            </article>
+          `
+        })
+        document.querySelector('#output').innerHTML = output;
+      })
+      .catch(err => console.log(err))
+    }
+
+    function showIcon(icon){
+      // clear icons
+      document.querySelectorAll('.icon-remove').forEach(icon => {
+        icon.style.display = 'none';
+      })
+      // show correct icon
+      document.querySelector(`[data-icon=${icon}]`).style.display = 'block';
+    }
+
+    function deleteLocation(e) {
+      if (!e.target.classList.contains('fa-times') && !e.target.classList.contains('btn-outline-danger')) return
+
+      document.querySelector('.message').remove();
+      document.querySelector('#zipcodeInput').value = '';
+      document.querySelector(`[data-icon='check']`).style='none';
+    }
+
+  </script>
+</body>
+</html>
